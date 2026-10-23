@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Seminar04</string>
+<string name="apasa">Apasa</string>
+    <string name="hello_world">hello world!</string>
+    <string name="exemplu_ion">Exemplu: Ion</string>
+    <string name="adau">adauga</string>
+    <string name="adauga">Adauga</string>
+    <string name="adaugare">adaugare</string>
+    <string name="adauga_barca">adauga barca</string>
+    <string name="are_motor">are motor</string>
+    <string name="marca">marca\n</string>
+    <string name="are_veste">are veste</string>
+    <string name="culoare">culoare\n</string>
+    <string name="numarul_de_locuri">numarul_de_locuri</string>
+    <string-array name="luni">
+        <item>Luni </item>
+        <item>Marti </item>
+        <item>Miercuri </item>
+        <item>Joi </item>
+        <item>Vineri  </item>
+    </string-array>
+</resources>
