@@ -3,6 +3,7 @@ package com.example.seminar04;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +14,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<Barca> listaBarci = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,15 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        Button btnVeziLista = findViewById(R.id.btn_vezi_lista);
+        btnVeziLista.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(getApplicationContext(), ListActivity.class);
+                it.putExtra("lista", listaBarci);
+                startActivity(it);
+            }
         });
     }
 
@@ -40,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
                 Barca barca = (Barca) data.getExtras().getSerializable("barca");
                 if (barca != null) {
+
+
+                    listaBarci.add(barca);
+
                     Toast.makeText(this, barca.toString(), Toast.LENGTH_LONG).show();
 
                     TextView barca_tv = findViewById(R.id.barca_tv);

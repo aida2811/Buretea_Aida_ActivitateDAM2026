@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Seminarii</string>
+    <string name="app_name">challange</string>
+    <string name="adaugare">Adaugare</string>
+    <string name="adauga_barca">Adauga Barca</string>
+    <string name="numarul_de_locuri">Numarul de locuri</string>
+    <string name="marca">Marca</string>
+    <string name="culoare">Culoare</string>
+    <string name="are_motor">Are motor</string>
+    <string name="are_veste">Are veste de salvare</string>
 </resources>
