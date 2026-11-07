@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 public class ListActivity extends AppCompatActivity {
 
     private ArrayList<Barca> listaBarci;
-    private ArrayAdapter<Barca> adapter;
+    private BarcaAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +22,19 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         Intent intent = getIntent();
-        listaBarci = (ArrayList<Barca>) intent.getSerializableExtra("lista");
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            listaBarci = intent.getParcelableArrayListExtra("lista", Barca.class);
+        } else {
+            listaBarci = intent.getParcelableArrayListExtra("lista");
+        }
 
         if (listaBarci == null) {
             listaBarci = new ArrayList<>();
         }
 
-        adapter = new ArrayAdapter<>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                listaBarci
-        );
+
+        adapter = new BarcaAdapter(listaBarci, this, R.layout.item_barca);
 
         ListView lv = findViewById(R.id.listView);
         lv.setAdapter(adapter);
@@ -46,13 +47,12 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Barca barcaSteasa = listaBarci.remove(position);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "S-a sters: " + barcaSteasa.getMarca(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "S-a șters: " + barcaSteasa.getMarca(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });

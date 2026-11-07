@@ -1,8 +1,11 @@
 package com.example.seminar04;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-public class Barca implements Serializable {
+public class Barca implements Parcelable {
 
     int nrLocuri;
     String culoare;
@@ -17,6 +20,40 @@ public class Barca implements Serializable {
         this.marca = marca;
         this.areVeste = areVeste;
     }
+
+    protected Barca(Parcel in) {
+        nrLocuri = in.readInt();
+        culoare = in.readString();
+        areMotor = in.readByte() != 0;
+        marca = in.readString();
+        areVeste = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(nrLocuri);
+        dest.writeString(culoare);
+        dest.writeByte((byte) (areMotor ? 1 : 0));
+        dest.writeString(marca);
+        dest.writeByte((byte) (areVeste ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Barca> CREATOR = new Creator<Barca>() {
+        @Override
+        public Barca createFromParcel(Parcel in) {
+            return new Barca(in);
+        }
+
+        @Override
+        public Barca[] newArray(int size) {
+            return new Barca[size];
+        }
+    };
 
     public int getNrLocuri() {
         return nrLocuri;

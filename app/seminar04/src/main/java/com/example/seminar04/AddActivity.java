@@ -38,14 +38,18 @@ public class AddActivity extends AppCompatActivity {
         SwitchCompat are_motor_sw = findViewById(R.id.are_motor_sw);
 
         int nrLocuri = 0;
-        String culoare = culoare_et.getText().toString();
-        boolean areVeste = are_veste_cb.isChecked();
-        String marca = marca_et.getText().toString();
-        boolean areMotor = are_motor_sw != null && are_motor_sw.isChecked();
+        String culoare = (culoare_et != null && culoare_et.getText() != null) ? culoare_et.getText().toString() : "";
+        boolean areVeste = (are_veste_cb != null) && are_veste_cb.isChecked();
+        String marca = (marca_et != null && marca_et.getText() != null) ? marca_et.getText().toString() : "";
+        boolean areMotor = (are_motor_sw != null) && are_motor_sw.isChecked();
 
         try {
-            nrLocuri = Integer.parseInt(locuri_et.getText().toString());
-        } catch (Exception e) {}
+            if (locuri_et != null && locuri_et.getText() != null && !locuri_et.getText().toString().isEmpty()) {
+                nrLocuri = Integer.parseInt(locuri_et.getText().toString());
+            }
+        } catch (Exception e) {
+            nrLocuri = 0;
+        }
 
         Barca barca = new Barca(nrLocuri, culoare, areMotor, marca, areVeste);
 

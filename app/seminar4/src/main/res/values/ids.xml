@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="nume_et" type="id">nume_et</item>
+    <item name="esteZi_" type="id">esteZi_CB</item>
+    <item name="esteZi_CB" type="id">estezi_CB</item>
+</resources>

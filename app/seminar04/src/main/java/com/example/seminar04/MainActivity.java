@@ -25,11 +25,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         Button btnVeziLista = findViewById(R.id.btn_vezi_lista);
         btnVeziLista.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,14 +53,13 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 45) {
-            if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
-                Barca barca = (Barca) data.getExtras().getSerializable("barca");
+            if (resultCode == RESULT_OK && data != null) {
+
+                Barca barca = data.getParcelableExtra("barca");
                 if (barca != null) {
-
-
                     listaBarci.add(barca);
 
-                    Toast.makeText(this, barca.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Adăugat: " + barca.toString(), Toast.LENGTH_LONG).show();
 
                     TextView barca_tv = findViewById(R.id.barca_tv);
                     String existing_text = barca_tv.getText().toString();
