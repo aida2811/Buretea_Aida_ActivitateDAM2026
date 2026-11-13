@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_ADD = 45;
+    public static final int REQUEST_CODE_LIST = 88;
+
     private ArrayList<Barca> listaBarci = new ArrayList<>();
 
     @Override
@@ -32,39 +35,61 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+
         Button btnVeziLista = findViewById(R.id.btn_vezi_lista);
         btnVeziLista.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(getApplicationContext(), ListActivity.class);
-                it.putExtra("lista", listaBarci);
-                startActivity(it);
+                it.putParcelableArrayListExtra("lista", listaBarci);
+                startActivityForResult(it, REQUEST_CODE_LIST);
+            }
+        });
+
+
+        Button btnGalerie = findViewById(R.id.btn_galerie_imagini);
+        btnGalerie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImaginiActivity.class);
+                startActivity(intent);
             }
         });
     }
 
+
     public void addBarca(View view) {
         Intent it = new Intent(this, AddActivity.class);
-        startActivityForResult(it, 45);
+        startActivityForResult(it, REQUEST_CODE_ADD);
+    }
+
+    private void actualizeazaTextView() {
+        TextView barca_tv = findViewById(R.id.barca_tv);
+        StringBuilder sb = new StringBuilder();
+        for (Barca b : listaBarci) {
+            sb.append(b.toString()).append("\n");
+        }
+        barca_tv.setText(sb.toString().trim());
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 45) {
-            if (resultCode == RESULT_OK && data != null) {
-
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == REQUEST_CODE_ADD) {
                 Barca barca = data.getParcelableExtra("barca");
                 if (barca != null) {
                     listaBarci.add(barca);
+                    Toast.makeText(this, "Adăugat: " + barca.getMarca(), Toast.LENGTH_SHORT).show();
+                    actualizeazaTextView();
+                }
+            } else if (requestCode == REQUEST_CODE_LIST) {
 
-                    Toast.makeText(this, "Adăugat: " + barca.toString(), Toast.LENGTH_LONG).show();
-
-                    TextView barca_tv = findViewById(R.id.barca_tv);
-                    String existing_text = barca_tv.getText().toString();
-                    String target_text = existing_text + (!existing_text.isEmpty() ? "\n" : "") + barca.toString();
-                    barca_tv.setText(target_text);
+                ArrayList<Barca> listaNoua = data.getParcelableArrayListExtra("lista_actualizata");
+                if (listaNoua != null) {
+                    listaBarci = listaNoua;
+                    actualizeazaTextView();
                 }
             }
         }
